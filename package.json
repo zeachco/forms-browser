@@ -1,0 +1,19 @@
+{
+  "name": "form-browser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "nodemon -x 'yarn start'",
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "author": "Olivier Rousseau-Guyot <zeachco@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@picocss/pico": "^1.5.7",
+    "electron": "^23.1.1",
+    "nodemon": "^2.0.20"
+  },
+  "devDependencies": {}
+}
