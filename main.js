@@ -37,19 +37,6 @@ function createWindow() {
 
   win.loadFile(path.join(__dirname, "index.html"));
 
-  setInterval(() => {
-    const idleTime = powerMonitor.getSystemIdleTime();
-    const shouldBeIdle = idleTime > config.ads_idle_time_sec;
-    if (shouldBeIdle !== isIdle) {
-      isIdle = shouldBeIdle;
-      console.log("changing idle state", isIdle);
-      win.webContents.executeJavaScript(
-        shouldBeIdle ? "sleep()" : "wake()",
-        (result) => console.log(result)
-      );
-    }
-  }, 1000);
-
   win.webContents.on("did-finish-load", async () => {
     win.webContents.executeJavaScript(
       `init(${JSON.stringify(config)});`,
@@ -58,6 +45,16 @@ function createWindow() {
       }
     );
   });
+
+  setInterval(() => {
+    const idleTime = powerMonitor.getSystemIdleTime();
+    const shouldBeIdle = idleTime > config.ads_idle_time_sec;
+    if (shouldBeIdle !== isIdle) {
+      isIdle = shouldBeIdle;
+      console.log("changing idle state", isIdle);
+      win.webContents.executeJavaScript(shouldBeIdle ? "sleep()" : "wake()");
+    }
+  }, 1000);
 }
 
 app.on("ready", createWindow);
