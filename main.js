@@ -1,8 +1,6 @@
 const { app, BrowserWindow, session, powerMonitor } = require("electron");
 const path = require("path");
 
-const devMode = process.env.NODE_ENV !== "production";
-
 const config = require("./config.json");
 let win;
 let isIdle = false;
@@ -26,13 +24,13 @@ function createWindow() {
     });
   });
 
-  if (devMode) {
+  if (app.isPackaged) {
+    win.fullScreen = true;
+  } else {
     win.maximize();
     win.openDevTools();
     config.ads_idle_time_sec = 3;
     config.ads_show_time_ms = 4000;
-  } else {
-    win.fullScreen = true;
   }
 
   win.loadFile(path.join(__dirname, "index.html"));
