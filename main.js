@@ -1,67 +1,47 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+
+const devMode = process.env.NODE_ENV !== 'production';
 
 let win;
 
-const createWindow = () => {
+function createWindow() {
   win = new BrowserWindow({
     width: 1080,
     height: 1920,
+    webPreferences: {
+      nodeIntegration: true // enable node integration in the renderer process
+    }
   });
 
-  win.loadFile("index.html");
 
-  // maximize if not on mac
-  if (process.platform !== "darwin") {
+  if (devMode) {
+    win.openDevTools();
+  } else {
     win.maximize();
     win.fullScreen = true;
   }
 
-  return win;
-};
+  win.loadFile(path.join(__dirname, 'index.html'));
 
-console.log("test");
+  win.webContents.on('did-finish-load', async () => {
 
-// app.whenReady().then(() => {
-//   const mainWindow = createWindow();
-// });
+    const items = require('./pubs/all.json')
+    console.log({items})
 
-app.on("ready", function () {
 
-  win = createWindow();
-  console.log("test2");
-  win.openDevTools();
 
-  win.on("closed", function () {
-    win = null;
-  });
+    const [first] = items
 
-  win.webContents.on('did-finish-load', () => {
     // Access the DOM object in the web page
-    win.webContents.executeJavaScript('global.alert("Hello from client.js");', (result) => {
+    win.webContents.executeJavaScript(`
+    const frame = document.createElement("iframe");
+    document.body.appendChild(frame);
+    frame.src = "./pubs/${first.file}";
+    `, (result) => {
       console.log(result); // Output the text content of the first h1 element in the page
     });
   });
+}
 
-  //   const items = require('./pubs/all.json')
-
-  // const carrousel = document.querySelector('.carrousel');
-
-  // const splash = document.createElement('div');
-  // splash.classList.add('splash');
-  // splash.innerHTML = `test2`
-  // document.body.appendChild(splash);
-
-  // console.log({items})
-
-
-
-  // mainWindow = new BrowserWindow({width:800, height : 600});
-  // mainWindow.loadUrl('file://' + __dirname + '/index.html');
-
-  //   var authButton = document.getElementById("auth-button");
-  //   authButton.addEventListener("click",function(){alert("clicked!");});
-});
-
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
-});
+app.on('ready', createWindow);

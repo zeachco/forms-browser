@@ -11,7 +11,7 @@
     <title>Document</title>
   </head>
   <body>
-    <button id="quit">Quitter le formulaire</button>
+    <button class="reset-form">Revenir au concours</button>
 
     <iframe
       id="formulaire"
@@ -26,7 +26,7 @@
       position: fixed;
       width: 100%;
       box-sizing: border-box;
-      height: 90vh;
+      height: calc(100vh - 3em);
       top: 10vh;
       left: 0;
       right: 0;
@@ -42,9 +42,29 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #fff8;
-      opacity: 0.5;
+      background-color: #fffc;
       z-index: 1;
+    }
+
+    .reset-form {
+      position: fixed;
+      width: 100%;
+      box-sizing: border-box;
+      height: 3em;
+      font-size: 2.5em;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: black;
+      color: white;
+      z-index: 5;
+      transition: all 0.5s ease-in-out;
+      text-transform: uppercase;
+    }
+
+    .reset-form:hover {
+      background-color: white;
+      color: black;
     }
   </style>
 </html>

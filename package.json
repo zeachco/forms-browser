@@ -1,19 +1,21 @@
 {
   "name": "form-browser",
   "version": "1.0.0",
-  "description": "",
+  "description": "Control box for public computer showing forms to fill",
   "main": "main.js",
   "scripts": {
     "dev": "nodemon -x 'yarn start'",
-    "start": "electron .",
-    "build": "electron-builder"
+    "start": "export NODE_ENV=production ; electron .",
+    "build": "export NODE_ENV=production ; electron-builder"
   },
   "author": "Olivier Rousseau-Guyot <zeachco@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@picocss/pico": "^1.5.7",
-    "electron": "^23.1.1",
-    "nodemon": "^2.0.20"
+    "@picocss/pico": "^1.5.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "electron": "^23.1.1",
+    "electron-builder": "^23.6.0",
+    "nodemon": "^2.0.20"
+  }
 }
