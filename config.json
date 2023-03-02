@@ -1,7 +1,7 @@
 {
-  "ads_idle_time_ms": 120000,
+  "ads_idle_time_sec": 120,
   "ads_show_time_ms": 30000,
-  "ads_idle_items": [
+  "ads_items": [
     "img : medias/creepy-dog.jpeg",
     "video : medias/example.mp4",
     "img : https://picsum.photos/300/200",
