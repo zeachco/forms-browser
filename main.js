@@ -1,12 +1,24 @@
-const { app, BrowserWindow, session, powerMonitor } = require("electron");
-const path = require("path");
+const {
+  shell,
+  app,
+  BrowserWindow,
+  session,
+  powerMonitor,
+} = require("electron");
+const { join } = require("path");
+const { readFileSync } = require("fs");
 
 const config = require("./config.json");
+const { writeFileSync } = require("original-fs");
 let win;
 let isIdle = false;
 
+const appData = app.getPath("userData");
+
 function createWindow() {
-  const currentSession = session.fromPartition("persist:someName");
+  checkConfig();
+
+  const currentSession = session.fromPartition("persist:currentSession");
   win = new BrowserWindow({
     width: 1080,
     height: 1920,
@@ -20,7 +32,10 @@ function createWindow() {
     event.preventDefault();
     require("got")(item.getURL()).then((response) => {
       console.log("response", response.body);
-      require("fs").writeFileSync("./somewhere", response.body);
+      require("fs").writeFileSync(
+        join(appData, "currentSession"),
+        response.body
+      );
     });
   });
 
@@ -33,7 +48,7 @@ function createWindow() {
     config.ads_show_time_ms = 4000;
   }
 
-  win.loadFile(path.join(__dirname, "index.html"));
+  win.loadFile(join(__dirname, "index.html"));
 
   win.webContents.on("did-finish-load", async () => {
     win.webContents.executeJavaScript(
@@ -49,10 +64,22 @@ function createWindow() {
     const shouldBeIdle = idleTime > config.ads_idle_time_sec;
     if (shouldBeIdle !== isIdle) {
       isIdle = shouldBeIdle;
-      console.log("changing idle state", isIdle);
       win.webContents.executeJavaScript(shouldBeIdle ? "sleep()" : "wake()");
     }
   }, 1000);
 }
 
 app.on("ready", createWindow);
+
+function checkConfig() {
+  try {
+    const configText = readFileSync(join(appData, "config.json"), "utf8");
+    Object.assign(config, JSON.parse(configText));
+  } catch (e) {
+    console.error(e);
+    const configPath = join(appData, "config.json");
+    writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
+    shell.showItemInFolder(configPath);
+    process.exit(1);
+  }
+}

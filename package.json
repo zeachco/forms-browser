@@ -4,18 +4,23 @@
   "description": "Control box for public computer showing forms to fill",
   "main": "main.js",
   "scripts": {
-    "dev": "NODE_ENV=dev ; nodemon -x 'yarn start'",
-    "start": "NODE_ENV=production ; electron .",
-    "build": "NODE_ENV=production ; electron-builder"
+    "dev": "nodemon -x 'yarn start'",
+    "start": "electron .",
+    "prebuild": "rimraf dist",
+    "build": "electron-builder"
   },
   "author": "Olivier Rousseau-Guyot <zeachco@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@picocss/pico": "^1.5.7"
+    "@picocss/pico": "^1.5.7",
+    "rimraf": "^4.1.3"
   },
   "devDependencies": {
     "electron": "^23.1.1",
     "electron-builder": "^23.6.0",
     "nodemon": "^2.0.20"
+  },
+  "build": {
+    "files": "!medias, !config.json"
   }
 }
