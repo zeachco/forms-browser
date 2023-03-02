@@ -4,7 +4,7 @@ let previousAd;
 
 async function init(config) {
   const { AdItem } = await import("./client/AdItem.class.js");
-  console.table(config);
+  console.debug(config);
 
   const resetFormBtn = document.createElement("button");
   resetFormBtn.classList.add("reset-form");

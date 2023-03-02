@@ -8,14 +8,22 @@ let win;
 let isIdle = false;
 
 function createWindow() {
-  const currentSession = session.fromPartition("persist:someName").cookies;
+  const currentSession = session.fromPartition("persist:someName");
   win = new BrowserWindow({
     width: 1080,
     height: 1920,
     webPreferences: {
       session: currentSession,
-      nodeIntegration: true, // enable node integration in the renderer process
+      contextIsolation: true,
     },
+  });
+
+  currentSession.on("will-download", (event, item, webContents) => {
+    event.preventDefault();
+    require("got")(item.getURL()).then((response) => {
+      console.log("response", response.body);
+      require("fs").writeFileSync("./somewhere", response.body);
+    });
   });
 
   if (devMode) {
