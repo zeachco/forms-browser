@@ -22,7 +22,7 @@ function createWindow() {
     win.maximize();
     win.openDevTools();
     config.ads_idle_time_sec = 3;
-    config.ads_show_time_ms = 2000;
+    config.ads_show_time_ms = 4000;
   } else {
     win.fullScreen = true;
   }
