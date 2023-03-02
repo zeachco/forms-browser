@@ -4,68 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css"
-    />
+    /> -->
     <title>Viewer</title>
-    <script src="./client.js"></script>
+    <link rel="stylesheet" href="app.css" />
   </head>
   <body>
-    <button class="reset-form">Revenir au concours</button>
-
-    <iframe
-      id="formulaire"
-      accesskey="A"
-      src="https://www.opinionsjeancoutu.com"
-      frameborder="0"
-    ></iframe>
+    <iframe id="form" src="https://www.opinionsjeancoutu.com"></iframe>
+    <div class="carrousel"></div>
   </body>
 
-  <style>
-    iframe {
-      position: fixed;
-      width: 100%;
-      box-sizing: border-box;
-      height: calc(100vh - 3em);
-      top: 10vh;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .splash {
-      position: fixed;
-      width: 100%;
-      box-sizing: border-box;
-      height: 100vh;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #fffc;
-      z-index: 1;
-    }
-
-    .reset-form {
-      position: fixed;
-      width: 100%;
-      box-sizing: border-box;
-      height: 3em;
-      font-size: 2.5em;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: black;
-      color: white;
-      z-index: 5;
-      transition: all 0.5s ease-in-out;
-      text-transform: uppercase;
-    }
-
-    .reset-form:hover {
-      background-color: white;
-      color: black;
-    }
-  </style>
+  <script src="./client.js"></script>
+  <div id="top"></div>
 </html>

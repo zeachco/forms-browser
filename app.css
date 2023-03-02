@@ -1,0 +1,100 @@
+iframe#form {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(100vh - 3em);
+  top: 10vh;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: none;
+}
+
+.ad-frame {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: none;
+  z-index: 2;
+}
+
+#top {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 99;
+  transition: opacity 0.5s ease-in-out;
+  text-transform: uppercase;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#top.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+#top .ad-item {
+  width: 100%;
+  height: 100%;
+  background-color: #fffc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  opacity: 0;
+}
+
+#top .ad-item.active {
+  opacity: 1;
+}
+
+.splash {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fffc;
+  z-index: 1;
+}
+
+.reset-form {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: 3em;
+  font-size: 2.5em;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  color: white;
+  z-index: 5;
+  transition: all 0.5s ease-in-out;
+  text-transform: uppercase;
+}
+
+.reset-form:hover {
+  background-color: white;
+  color: black;
+}

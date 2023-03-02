@@ -16,9 +16,11 @@ function createWindow() {
   });
 
   if (devMode) {
-    win.openDevTools();
-  } else {
     win.maximize();
+    win.openDevTools();
+    config.ads_idle_time_ms = 5000;
+    config.ads_show_time_ms = 2000;
+  } else {
     win.fullScreen = true;
   }
 
@@ -26,7 +28,7 @@ function createWindow() {
 
   win.webContents.on("did-finish-load", async () => {
     win.webContents.executeJavaScript(
-      `createAds(${JSON.stringify(config.ads_idle_items)})`,
+      `init(${JSON.stringify(config)});`,
       (result) => {
         console.log(result);
       }

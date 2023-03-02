@@ -2,10 +2,11 @@
   "ads_idle_time_ms": 120000,
   "ads_show_time_ms": 30000,
   "ads_idle_items": [
-    "./medias/ads1.jpg",
-    "./medias/example.mp4",
-    "http://www.example.com/ads/ads1.jpg",
-    "http://www.example.com/ads/ads2.jpg",
-    "http://www.example.com/ads/ads3.jpg"
+    "img : medias/creepy-dog.jpeg",
+    "video : medias/example.mp4",
+    "img : https://picsum.photos/300/200",
+    "img : https://picsum.photos/400/200",
+    "img : https://picsum.photos/600/600",
+    "site : https://perdu.com"
   ]
 }
