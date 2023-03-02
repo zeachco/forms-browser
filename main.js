@@ -7,7 +7,7 @@ const {
 } = require("electron");
 const { join } = require("path");
 const { readFileSync } = require("fs");
-const config = require("./config.json");
+const config = require("./base-config.json");
 const { writeFileSync } = require("original-fs");
 
 let win;
@@ -16,15 +16,18 @@ let isIdle = false;
 const appData = app.getPath("userData");
 console.log("working dir:\n", appData);
 
+const lockHost = app.isPackaged || process.env.LOCK_HOST;
+
 function createWindow() {
   checkConfig();
 
   const currentSession = session.fromPartition("persist:currentSession");
   win = new BrowserWindow({
-    alwaysOnTop: app.isPackaged,
+    alwaysOnTop: lockHost,
     frame: false,
+    thickFrame: false,
     autoHideMenuBar: true,
-    kiosk: app.isPackaged,
+    kiosk: lockHost,
     width: 1080,
     height: 1920,
     webPreferences: {
@@ -33,46 +36,31 @@ function createWindow() {
     },
   });
 
-  // win = new BrowserWindow({
-  //   alwaysOnTop: app.isPackaged,
-  //   frame: false,
-  //   autoHideMenuBar: true,
-  //   kiosk: app.isPackaged,
-  //   width: 1080,
-  //   height: 1920,
-  //   webPreferences: {
-  //     session: currentSession,
-  //     contextIsolation: true,
-  //   },
-  // });
+  adWin = new BrowserWindow({
+    alwaysOnTop: lockHost,
+    frame: false,
+    thickFrame: false,
+    autoHideMenuBar: true,
+    width: 1080,
+    height: 1920,
+  });
 
-  // currentSession.on("will-download", (event, item, webContents) => {
-  //   event.preventDefault();
-  //   require("got")(item.getURL()).then((response) => {
-  //     console.log("response", response.body);
-  //     require("fs").writeFileSync(
-  //       join(appData, "currentSession"),
-  //       response.body
-  //     );
-  //   });
-  // });
+  adWin.hide();
 
-  if (app.isPackaged) {
+  if (lockHost) {
     win.fullScreen = true;
+    adWin.fullScreen = true;
   } else {
-    win.openDevTools();
+    win.maximize();
+    // adWin.openDevTools();
+    adWin.maximize();
   }
 
-  win.loadFile(join(__dirname, "index.html"));
+  adWin.loadFile(join(__dirname, "index.html"));
   win.loadURL("https://www.opinionsjeancoutu.com");
 
-  win.webContents.on("did-finish-load", async () => {
-    win.webContents.executeJavaScript(
-      `init(${JSON.stringify(config)});`,
-      (result) => {
-        console.log(result);
-      }
-    );
+  adWin.webContents.on("did-finish-load", () => {
+    adWin.webContents.executeJavaScript(`init(${JSON.stringify(config)});`);
   });
 
   setInterval(() => {
@@ -80,7 +68,14 @@ function createWindow() {
     const shouldBeIdle = idleTime > config.ads_idle_time_sec;
     if (shouldBeIdle !== isIdle) {
       isIdle = shouldBeIdle;
-      win.webContents.executeJavaScript(shouldBeIdle ? "sleep()" : "wake()");
+      if (shouldBeIdle) {
+        win.hide();
+        win.loadURL("https://www.opinionsjeancoutu.com");
+        adWin.show();
+      } else {
+        adWin.hide();
+        win.show();
+      }
     }
   }, 1000);
 }
