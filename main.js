@@ -7,19 +7,24 @@ const {
 } = require("electron");
 const { join } = require("path");
 const { readFileSync } = require("fs");
-
 const config = require("./config.json");
 const { writeFileSync } = require("original-fs");
+
 let win;
 let isIdle = false;
 
 const appData = app.getPath("userData");
+console.log("working dir:\n", appData);
 
 function createWindow() {
   checkConfig();
 
   const currentSession = session.fromPartition("persist:currentSession");
   win = new BrowserWindow({
+    alwaysOnTop: app.isPackaged,
+    frame: false,
+    autoHideMenuBar: true,
+    kiosk: app.isPackaged,
     width: 1080,
     height: 1920,
     webPreferences: {
@@ -42,10 +47,7 @@ function createWindow() {
   if (app.isPackaged) {
     win.fullScreen = true;
   } else {
-    win.maximize();
     win.openDevTools();
-    config.ads_idle_time_sec = 3;
-    config.ads_show_time_ms = 4000;
   }
 
   win.loadFile(join(__dirname, "index.html"));
