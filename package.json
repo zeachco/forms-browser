@@ -4,9 +4,9 @@
   "description": "Control box for public computer showing forms to fill",
   "main": "main.js",
   "scripts": {
-    "dev": "nodemon -x 'yarn start'",
-    "start": "export NODE_ENV=production ; electron .",
-    "build": "export NODE_ENV=production ; electron-builder"
+    "dev": "NODE_ENV=dev ; nodemon -x 'yarn start'",
+    "start": "NODE_ENV=production ; electron .",
+    "build": "NODE_ENV=production ; electron-builder"
   },
   "author": "Olivier Rousseau-Guyot <zeachco@gmail.com>",
   "license": "ISC",

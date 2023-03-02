@@ -1,0 +1,11 @@
+{
+  "ads_idle_time_ms": 120000,
+  "ads_show_time_ms": 30000,
+  "ads_idle_items": [
+    "./medias/ads1.jpg",
+    "./medias/example.mp4",
+    "http://www.example.com/ads/ads1.jpg",
+    "http://www.example.com/ads/ads2.jpg",
+    "http://www.example.com/ads/ads3.jpg"
+  ]
+}
