@@ -33,16 +33,29 @@ function createWindow() {
     },
   });
 
-  currentSession.on("will-download", (event, item, webContents) => {
-    event.preventDefault();
-    require("got")(item.getURL()).then((response) => {
-      console.log("response", response.body);
-      require("fs").writeFileSync(
-        join(appData, "currentSession"),
-        response.body
-      );
-    });
-  });
+  // win = new BrowserWindow({
+  //   alwaysOnTop: app.isPackaged,
+  //   frame: false,
+  //   autoHideMenuBar: true,
+  //   kiosk: app.isPackaged,
+  //   width: 1080,
+  //   height: 1920,
+  //   webPreferences: {
+  //     session: currentSession,
+  //     contextIsolation: true,
+  //   },
+  // });
+
+  // currentSession.on("will-download", (event, item, webContents) => {
+  //   event.preventDefault();
+  //   require("got")(item.getURL()).then((response) => {
+  //     console.log("response", response.body);
+  //     require("fs").writeFileSync(
+  //       join(appData, "currentSession"),
+  //       response.body
+  //     );
+  //   });
+  // });
 
   if (app.isPackaged) {
     win.fullScreen = true;
@@ -51,6 +64,7 @@ function createWindow() {
   }
 
   win.loadFile(join(__dirname, "index.html"));
+  win.loadURL("https://www.opinionsjeancoutu.com");
 
   win.webContents.on("did-finish-load", async () => {
     win.webContents.executeJavaScript(
